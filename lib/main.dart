@@ -10,7 +10,7 @@ Future<List<Gymdata>> fetchAlbum() async {
   
   if (response.statusCode == 200) {
     var responsejson = json.decode(response.body);
-    print(responsejson);
+    //print(responsejson);
     return (responsejson['features'] as List).map((p) 
     => Gymdata.fromJson(p)).toList();
   }else {
