@@ -6,10 +6,11 @@ import 'package:http/http.dart' as http;
 
 Future<List<Gymdata>> fetchAlbum() async {
   final response = await http
-      .get(Uri.parse('https://api.csdi.gov.hk/apim/dataquery/api/?id=lcsd_rcd_1629267205215_5008&layer=fitness_20220311104235697&limit=10&offset=0'));
+      .get(Uri.parse('https://api.csdi.gov.hk/apim/dataquery/api/?id=lcsd_rcd_1629267205215_5008&layer=fitness_20220311104235697&limit=1&offset=0'));
   
   if (response.statusCode == 200) {
     var responsejson = json.decode(response.body);
+    print(responsejson);
     return (responsejson['features'] as List).map((p) 
     => Gymdata.fromJson(p)).toList();
   }else {
@@ -29,11 +30,12 @@ class Gymdata {
   });
 
   factory Gymdata.fromJson(Map<String, dynamic> json) {
+    var properties = json['properties'];
     return Gymdata(
-      addressEn: json['ADDRESS_EN'].toString(), 
-      search02: json['SEARCH02_TC'].toString(), 
-      name: json['NAME_TC'].toString()
-    ) ;
+      addressEn: properties['ADDRESS_EN'].toString(), 
+      search02: properties['SEARCH02_TC'].toString(), 
+      name: properties['NAME_TC'].toString()
+    );
   }
 }
 
